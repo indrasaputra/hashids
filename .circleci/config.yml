@@ -1,0 +1,30 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
+jobs:
+  build:
+    environment:
+      TEST_ARTIFACTS: /tmp/artifacts
+
+    docker:
+      - image: circleci/golang:1.15
+          
+    working_directory: /go/src/github.com/indrasaputra/hashids
+
+    steps:
+      - checkout
+      - run: mkdir -p $TEST_ARTIFACTS            
+      - run: go mod vendor
+      - run: 
+          command: |
+            go test -v -race ./... -coverprofile=coverage.out
+            go tool cover -html=coverage.out -o coverage.html
+            mv coverage.html $TEST_ARTIFACTS
+    
+      - store_artifacts:
+          path: $TEST_ARTIFACTS
+
+      - codecov/upload:
+          file: $TEST_ARTIFACTS/coverage.html
