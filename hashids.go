@@ -15,3 +15,7 @@ type Hash interface {
 	// Decode decodes the string into an ID.
 	Decode(string) (ID, error)
 }
+
+// HashID can be used to encode and decode hashids.
+// It implements the Hash interface.
+type HashID struct{}
