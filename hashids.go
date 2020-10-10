@@ -1,6 +1,8 @@
 package hashids
 
 import (
+	"fmt"
+
 	gohashids "github.com/speps/go-hashids"
 )
 
@@ -51,4 +53,20 @@ func (h *HashID) Encode(id ID) ([]byte, error) {
 		return nil, err
 	}
 	return []byte(res), nil
+}
+
+// Decode decodes the slice of byte into an ID.
+func (h *HashID) Decode(hash []byte) (ID, error) {
+	if len(hash) == 0 {
+		return 0, nil
+	}
+
+	res, err := h.hasher.DecodeInt64WithError(string(hash))
+	if err != nil {
+		return 0, err
+	}
+	if len(res) != 1 {
+		return 0, fmt.Errorf("Expected decoded value must be only 1 ID, turns out be %d ID(s)", len(res))
+	}
+	return ID(res[0]), nil
 }
