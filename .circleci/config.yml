@@ -1,4 +1,4 @@
-version: 2.0
+version: 2.
 jobs:
   build:
     docker:
@@ -6,7 +6,7 @@ jobs:
         environment:
           GO111MODULE: "on"
 
-    working_directory: /go/src/github.com/indrasaputra/hashids
+    working_directory: /go/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
 
     environment:
       TEST_ARTIFACTS: /tmp/artifacts
