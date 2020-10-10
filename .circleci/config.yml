@@ -1,9 +1,13 @@
 version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
 jobs:
   build:
     environment:
       TEST_ARTIFACTS: /tmp/artifacts
-      
+
     docker:
       - image: circleci/golang:1.15
           
@@ -21,3 +25,6 @@ jobs:
     
       - store_artifacts:
           path: $TEST_ARTIFACTS
+
+      - codecov/upload:
+          file: $TEST_ARTIFACTS/coverage.html
