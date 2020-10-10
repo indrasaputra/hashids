@@ -85,4 +85,12 @@ func TestHashID_Decode(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Zero(t, id)
 	})
+
+	t.Run("not hashids byte can't be decoded", func(t *testing.T) {
+		hash, _ := hashids.NewHashID(10, "salt-is-garam")
+		id, err := hash.Decode([]byte(`garamissalt`))
+
+		assert.NotNil(t, err)
+		assert.Zero(t, id)
+	})
 }
