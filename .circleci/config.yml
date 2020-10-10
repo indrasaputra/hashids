@@ -12,11 +12,10 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $TEST_ARTIFACTS            
-      - run: go get -v -t -d ./...
+      - run: make dep
       - run: 
           command: |
-            go test ./... -coverprofile=c.out
-            go tool cover -html=c.out -o coverage.html
+            make coverhtml
             mv coverage.html $TEST_ARTIFACTS
     
       - store_artifacts:
