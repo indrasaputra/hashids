@@ -12,10 +12,11 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $TEST_ARTIFACTS            
-      - run: make vendor
+      - run: go mod vendor
       - run: 
           command: |
-            make coverhtml
+            go test -v -race ./... -coverprofile=coverage.out
+            go tool cover -html=coverage.out -o coverage.html
             mv coverage.html $TEST_ARTIFACTS
     
       - store_artifacts:
