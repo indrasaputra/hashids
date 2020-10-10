@@ -1,5 +1,7 @@
 package hashids
 
+import "github.com/speps/go-hashids"
+
 // ID represents a unique identifier.
 // It means to replace the old int64 as unique ID.
 // Using this type allows the int64 to be obfuscated
@@ -19,6 +21,23 @@ type Hash interface {
 // HashID can be used to encode and decode hashids.
 // It implements the Hash interface.
 type HashID struct {
-	salt      string
-	minLength uint
+	hasher *hashids.HashID
+}
+
+// NewHashID creates an instance of HashID.
+// It needs two parameters. The minimum length is used to define
+// the mininum length of generated string.
+// The salt is used to add the uniqueness of the generated hash.
+func NewHashID(minLength uint, salt string) (*HashID, error) {
+	data := hashids.NewData()
+	data.Salt = salt
+	data.MinLength = int(minLength)
+	hasher, err := hashids.NewWithData(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &HashID{
+		hasher: hasher,
+	}, nil
 }
