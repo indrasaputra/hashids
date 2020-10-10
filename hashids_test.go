@@ -93,4 +93,15 @@ func TestHashID_Decode(t *testing.T) {
 		assert.NotNil(t, err)
 		assert.Zero(t, id)
 	})
+
+	t.Run("can't decode hash that contains more than one ID", func(t *testing.T) {
+		inputs := []string{"lqs9SN", "YkpsL"}
+		for _, inp := range inputs {
+			hash, _ := hashids.NewHashID(5, "salt-is-garam")
+			id, err := hash.Decode([]byte(inp))
+
+			assert.NotNil(t, err)
+			assert.Zero(t, id)
+		}
+	})
 }
