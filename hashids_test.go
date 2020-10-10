@@ -104,4 +104,23 @@ func TestHashID_Decode(t *testing.T) {
 			assert.Zero(t, id)
 		}
 	})
+
+	t.Run("successfully decodes the hashid", func(t *testing.T) {
+		inputs := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"kYeBo", 1},
+			{"bQ6Mo", 2},
+			{"AYk2O", 3},
+		}
+
+		for _, inp := range inputs {
+			hash, _ := hashids.NewHashID(5, "salt-is-garam")
+			id, err := hash.Decode([]byte(inp.hash))
+
+			assert.Nil(t, err)
+			assert.Equal(t, inp.id, id)
+		}
+	})
 }
