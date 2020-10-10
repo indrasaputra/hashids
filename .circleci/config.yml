@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
       - run: mkdir -p $TEST_ARTIFACTS            
-      - run: make dep
+      - run: make vendor
       - run: 
           command: |
             make coverhtml
