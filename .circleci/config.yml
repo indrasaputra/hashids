@@ -1,23 +1,13 @@
 version: 2.1
 jobs:
-  parameters:
-    org_name:
-      type: string
-      default: $CIRCLE_PROJECT_USERNAME
-    repo_name:
-      type: string
-      default: $CIRCLE_PROJECT_REPONAME
-
   build:
-    docker:
-      - image: circleci/golang:1.15
-        environment:
-          GO111MODULE: "on"
-          
-    working_directory: /go/src/github.com/<< parameters.org_name >>/<< parameters.repo_name >>
-
     environment:
       TEST_ARTIFACTS: /tmp/artifacts
+      
+    docker:
+      - image: circleci/golang:1.15
+          
+    working_directory: /go/src/github.com/indrasaputra/hashids
 
     steps:
       - checkout
