@@ -1,12 +1,12 @@
-version: 2.1
+version: 2.0
 jobs:
   build:
     docker:
       - image: circleci/golang:1.15
         environment:
           GO111MODULE: "on"
-          
-    working_directory: /go/src/github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME
+
+    working_directory: /go/src/github.com/indrasaputra/hashids
 
     environment:
       TEST_ARTIFACTS: /tmp/artifacts
