@@ -43,3 +43,12 @@ func NewHashID(minLength uint, salt string) (*HashID, error) {
 		hasher: hasher,
 	}, nil
 }
+
+// Encode encodes the ID into a slice of byte.
+func (h *HashID) Encode(id ID) ([]byte, error) {
+	res, err := h.hasher.EncodeInt64([]int64{int64(id)})
+	if err != nil {
+		return nil, err
+	}
+	return []byte(res), nil
+}
