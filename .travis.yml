@@ -8,7 +8,7 @@ go:
   - tip
 
 env:
-  - GO111MODULE=on
+  - GO111MODULE=off
 
 matrix:
   allow_failures:
