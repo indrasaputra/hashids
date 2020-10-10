@@ -13,10 +13,9 @@ jobs:
       - checkout
       - run: mkdir -p $TEST_ARTIFACTS            
       - run: go get -v -t -d ./...
-      - run: go test -v ./...
       - run: 
           command: |
-            go test -coverprofile=c.out
+            go test ./... -coverprofile=c.out
             go tool cover -html=c.out -o coverage.html
             mv coverage.html $TEST_ARTIFACTS
     
