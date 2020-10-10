@@ -76,3 +76,13 @@ func TestHashID_Encode(t *testing.T) {
 		}
 	})
 }
+
+func TestHashID_Decode(t *testing.T) {
+	t.Run("zero length byte is decoded into 0 and nil error", func(t *testing.T) {
+		hash, _ := hashids.NewHashID(10, "salt-is-garam")
+		id, err := hash.Decode([]byte{})
+
+		assert.Nil(t, err)
+		assert.Zero(t, id)
+	})
+}
