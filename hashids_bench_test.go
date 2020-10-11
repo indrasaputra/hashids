@@ -83,3 +83,11 @@ func BenchmarkHashID_Decode(b *testing.B) {
 		}
 	})
 }
+
+func BenchmarkEncodeID(b *testing.B) {
+	b.Run("various id", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			hashids.EncodeID(hashids.ID(i))
+		}
+	})
+}
