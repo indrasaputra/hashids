@@ -1,6 +1,7 @@
 package hashids_test
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/indrasaputra/hashids"
@@ -94,6 +95,21 @@ func TestID_UnmarshalJSON(t *testing.T) {
 
 			assert.Nil(t, err)
 			assert.Equal(t, table.id, id)
+		}
+	})
+}
+
+func TestID_MarshalAndUnmarshal(t *testing.T) {
+	t.Run("ID gets back to original ID when unmarshal after marshal", func(t *testing.T) {
+		ids := []hashids.ID{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 200, 1000, 10000, 100000, 1000000, 10000000, 100000000}
+		for _, id := range ids {
+			res, err := json.Marshal(id)
+			assert.Nil(t, err)
+
+			var tmp hashids.ID
+			err = json.Unmarshal(res, &tmp)
+			assert.Nil(t, err)
+			assert.Equal(t, id, tmp)
 		}
 	})
 }
