@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     environment:
-      TEST_ARTIFACTS: /tmp/artifacts
+      TEST_RESULTS: /tmp/test-results
 
     docker:
       - image: circleci/golang:1.15
@@ -15,16 +15,15 @@ jobs:
 
     steps:
       - checkout
-      - run: mkdir -p $TEST_ARTIFACTS            
+      - run: mkdir -p $TEST_RESULTS            
       - run: go mod vendor
       - run: 
           command: |
             go test -v -race ./... -coverprofile=coverage.out
             go tool cover -html=coverage.out -o coverage.html
-            mv coverage.html $TEST_ARTIFACTS
     
       - store_artifacts:
-          path: $TEST_ARTIFACTS
+          path: $TEST_RESULTS
 
       - codecov/upload:
-          file: $TEST_ARTIFACTS/coverage.html
+          file: coverage.html
