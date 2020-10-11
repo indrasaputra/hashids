@@ -15,6 +15,21 @@ func TestID_MarshalJSON(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, "null", string(res))
 	})
+
+	t.Run("negative number can't be marshaled", func(t *testing.T) {
+		ids := []hashids.ID{
+			hashids.ID(-1),
+			hashids.ID(-43),
+			hashids.ID(-66),
+		}
+
+		for _, id := range ids {
+			res, err := id.MarshalJSON()
+
+			assert.NotNil(t, err)
+			assert.Nil(t, res)
+		}
+	})
 }
 
 func TestNewHashID(t *testing.T) {
