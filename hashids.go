@@ -31,7 +31,7 @@ func (id ID) MarshalJSON() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return json.Marshal(res)
+	return json.Marshal(string(res))
 }
 
 // UnmarshalJSON unmarshals the JSON back to ID.
