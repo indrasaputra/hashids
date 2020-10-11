@@ -10,3 +10,9 @@ Hashids is a package to convert ID into a random string to obfuscate the real ID
 In the implementation itself, the ID will still be an integer. But, when it is shown to the user,
 it becomes a random string. The generated random string can be decoded back to the original ID.
 This project uses [https://github.com/speps/go-hashids](https://github.com/speps/go-hashids) as the backend.
+
+## Installation
+
+```
+go get github.com/indrasaputra/hashids
+```
