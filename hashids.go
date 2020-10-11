@@ -10,6 +10,10 @@ import (
 
 var hasher *HashID
 
+func init() {
+	hasher, _ = NewHashID(10, "common-salt")
+}
+
 // ID represents a unique identifier.
 // It means to replace the old int64 as unique ID.
 // Using this type allows the int64 to be obfuscated
