@@ -32,17 +32,21 @@ func TestID_MarshalJSON(t *testing.T) {
 	})
 
 	t.Run("successfully marshal positive number", func(t *testing.T) {
-		ids := []hashids.ID{
-			hashids.ID(1),
-			hashids.ID(43),
-			hashids.ID(66),
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{`"oWx0b8DZ1a"`, 1},
+			{`"EO19oA6vGx"`, 43},
+			{`"J4r0MA20No"`, 66},
 		}
 
-		for _, id := range ids {
-			res, err := id.MarshalJSON()
+		for _, table := range tables {
+			res, err := table.id.MarshalJSON()
 
 			assert.Nil(t, err)
 			assert.NotEmpty(t, res)
+			assert.Equal(t, table.hash, string(res))
 		}
 	})
 }
