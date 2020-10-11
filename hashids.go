@@ -1,10 +1,18 @@
 package hashids
 
 import (
+	"encoding/json"
 	"fmt"
+	"strings"
 
 	gohashids "github.com/speps/go-hashids"
 )
+
+var hasher *HashID
+
+func init() {
+	hasher, _ = NewHashID(10, "common-salt")
+}
 
 // ID represents a unique identifier.
 // It means to replace the old int64 as unique ID.
@@ -12,6 +20,38 @@ import (
 // into a random string using the Hashids algorithm.
 // Read more about hashids in https://hashids.org/.
 type ID int64
+
+// MarshalJSON marshals the ID to JSON.
+func (id ID) MarshalJSON() ([]byte, error) {
+	if id == 0 {
+		return json.Marshal(nil)
+	}
+
+	res, err := hasher.Encode(id)
+	if err != nil {
+		return nil, err
+	}
+	return json.Marshal(string(res))
+}
+
+// UnmarshalJSON unmarshals the JSON back to ID.
+func (id *ID) UnmarshalJSON(hash []byte) error {
+	if strings.TrimSpace(string(hash)) == "null" {
+		*id = 0
+		return nil
+	}
+
+	if len(hash) >= 2 {
+		hash = hash[1 : len(hash)-1]
+	}
+
+	res, err := hasher.Decode(hash)
+	if err != nil {
+		return err
+	}
+	*id = ID(res)
+	return nil
+}
 
 // Hash defines the contract to encode and decode the ID.
 type Hash interface {

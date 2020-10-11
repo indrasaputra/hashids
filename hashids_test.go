@@ -7,6 +7,97 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestID_MarshalJSON(t *testing.T) {
+	t.Run("zero id be marshalled as 'null'", func(t *testing.T) {
+		id := hashids.ID(0)
+		res, err := id.MarshalJSON()
+
+		assert.Nil(t, err)
+		assert.Equal(t, "null", string(res))
+	})
+
+	t.Run("negative number can't be marshalled", func(t *testing.T) {
+		ids := []hashids.ID{
+			hashids.ID(-1),
+			hashids.ID(-43),
+			hashids.ID(-66),
+		}
+
+		for _, id := range ids {
+			res, err := id.MarshalJSON()
+
+			assert.NotNil(t, err)
+			assert.Nil(t, res)
+		}
+	})
+
+	t.Run("successfully marshal positive number", func(t *testing.T) {
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{`"oWx0b8DZ1a"`, 1},
+			{`"EO19oA6vGx"`, 43},
+			{`"J4r0MA20No"`, 66},
+		}
+
+		for _, table := range tables {
+			res, err := table.id.MarshalJSON()
+
+			assert.Nil(t, err)
+			assert.NotEmpty(t, res)
+			assert.Equal(t, table.hash, string(res))
+		}
+	})
+}
+
+func TestID_UnmarshalJSON(t *testing.T) {
+	t.Run("'null' is marshalled to zero ID", func(t *testing.T) {
+		id := hashids.ID(10)
+		id.UnmarshalJSON([]byte(`null`))
+
+		assert.Equal(t, hashids.ID(0), id)
+	})
+
+	t.Run("invalid hash can't be marshalled", func(t *testing.T) {
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0b8DZ1a", 1},
+			{"EO19oA6vGx", 43},
+			{"J4r0MA20No", 66},
+		}
+
+		for _, table := range tables {
+			var id hashids.ID
+			err := id.UnmarshalJSON([]byte(table.hash))
+
+			assert.NotNil(t, err)
+			assert.NotEqual(t, table.id, id)
+		}
+	})
+
+	t.Run("successfully unmarshal valid hashes", func(t *testing.T) {
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{`"oWx0b8DZ1a"`, 1},
+			{`"EO19oA6vGx"`, 43},
+			{`"J4r0MA20No"`, 66},
+		}
+
+		for _, table := range tables {
+			var id hashids.ID
+			err := id.UnmarshalJSON([]byte(table.hash))
+
+			assert.Nil(t, err)
+			assert.Equal(t, table.id, id)
+		}
+	})
+}
+
 func TestNewHashID(t *testing.T) {
 	t.Run("successfully create an instance of HashID", func(t *testing.T) {
 		tables := []struct {
