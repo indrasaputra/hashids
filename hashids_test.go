@@ -252,6 +252,26 @@ func TestHashID_Decode(t *testing.T) {
 	})
 }
 
+func TestDecodeHash(t *testing.T) {
+	t.Run("successfully decodes the hashid", func(t *testing.T) {
+		inputs := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0b8DZ1a", 1},
+			{"EO19oA6vGx", 43},
+			{"J4r0MA20No", 66},
+		}
+
+		for _, inp := range inputs {
+			id, err := hashids.DecodeHash([]byte(inp.hash))
+
+			assert.Nil(t, err)
+			assert.Equal(t, inp.id, id)
+		}
+	})
+}
+
 func TestSetHasher(t *testing.T) {
 	t.Run("different hasher produces different hash even the minimum length is same for the same ID", func(t *testing.T) {
 		hasher1, _ := hashids.NewHashID(5, "new-salt")
