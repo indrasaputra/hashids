@@ -21,9 +21,10 @@ jobs:
           command: |
             go test -v -race ./... -coverprofile=coverage.out
             go tool cover -html=coverage.out -o coverage.html
-    
+            cp coverage.html /tmp/test-results
+      - run: ls
       - store_artifacts:
-          path: $TEST_RESULTS
+          path: /tmp/test-results
 
       - codecov/upload:
-          file: coverage.html
+          file: /tmp/test-results/coverage.html
