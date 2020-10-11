@@ -59,3 +59,7 @@ The code above will fill the product's attributes like this:
 ```json
 {66 product's name}
 ```
+
+## Limitation
+
+For now, this package only support encoding to JSON and decoding from JSON.
