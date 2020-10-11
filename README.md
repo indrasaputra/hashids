@@ -56,7 +56,7 @@ json.Unmarshal(b, &product)
 
 The code above will fill the product's attributes like this:
 
-```json
+```cmd
 {66 product's name}
 ```
 
