@@ -215,3 +215,19 @@ func TestHashID_Decode(t *testing.T) {
 		}
 	})
 }
+
+func TestSetHasher(t *testing.T) {
+	t.Run("different hasher produces different hash even the minimum length is same for the same ID", func(t *testing.T) {
+		hasher1, _ := hashids.NewHashID(5, "new-salt")
+		hashids.SetHasher(hasher1)
+		id := hashids.ID(1)
+		res1, _ := id.MarshalJSON()
+
+		hasher2, _ := hashids.NewHashID(5, "new-salt-again")
+		hashids.SetHasher(hasher2)
+		id = hashids.ID(1)
+		res2, _ := id.MarshalJSON()
+
+		assert.NotEqual(t, res1, res2)
+	})
+}
