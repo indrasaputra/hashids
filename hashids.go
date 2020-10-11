@@ -14,6 +14,13 @@ func init() {
 	hasher, _ = NewHashID(10, "common-salt")
 }
 
+// SetHasher sets the hasher.
+// If this method is never called, the package will use default hasher.
+// The default hasher is NewHashID(10, "common-salt").
+func SetHasher(hash *HashID) {
+	hasher = hash
+}
+
 // ID represents a unique identifier.
 // It means to replace the old int64 as unique ID.
 // Using this type allows the int64 to be obfuscated
