@@ -253,6 +253,17 @@ func TestHashID_Decode(t *testing.T) {
 }
 
 func TestEncodeID(t *testing.T) {
+	t.Run("negative ID can't be encoded", func(t *testing.T) {
+		ids := []hashids.ID{-1, -2, -3, -4, -5, -6, -7, -8, -9, -10}
+		for _, id := range ids {
+			res, err := hashids.EncodeID(id)
+
+			assert.NotNil(t, err)
+			assert.Empty(t, res)
+			assert.Nil(t, res)
+		}
+	})
+
 	t.Run("successfully encodes the ID", func(t *testing.T) {
 		ids := []hashids.ID{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		for _, id := range ids {
