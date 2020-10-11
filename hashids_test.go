@@ -7,6 +7,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestID_MarshalJSON(t *testing.T) {
+	t.Run("zero id be marshaled as 'null'", func(t *testing.T) {
+		id := hashids.ID(0)
+		res, err := id.MarshalJSON()
+
+		assert.Nil(t, err)
+		assert.Equal(t, "null", string(res))
+	})
+}
+
 func TestNewHashID(t *testing.T) {
 	t.Run("successfully create an instance of HashID", func(t *testing.T) {
 		tables := []struct {
