@@ -252,6 +252,67 @@ func TestHashID_Decode(t *testing.T) {
 	})
 }
 
+func TestEncodeID(t *testing.T) {
+	t.Run("negative ID can't be encoded", func(t *testing.T) {
+		ids := []hashids.ID{-1, -2, -3, -4, -5, -6, -7, -8, -9, -10}
+		for _, id := range ids {
+			res, err := hashids.EncodeID(id)
+
+			assert.NotNil(t, err)
+			assert.Empty(t, res)
+			assert.Nil(t, res)
+		}
+	})
+
+	t.Run("successfully encodes the ID", func(t *testing.T) {
+		ids := []hashids.ID{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		for _, id := range ids {
+			res, err := hashids.EncodeID(id)
+
+			assert.Nil(t, err)
+			assert.NotEmpty(t, res)
+		}
+	})
+}
+
+func TestDecodeHash(t *testing.T) {
+	t.Run("can't decode invalid hash", func(t *testing.T) {
+		inputs := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0DZ1a", 1},
+			{"EO19ovGx", 43},
+			{"J4MA20No", 66},
+		}
+
+		for _, inp := range inputs {
+			id, err := hashids.DecodeHash([]byte(inp.hash))
+
+			assert.NotNil(t, err)
+			assert.NotEqual(t, inp.id, id)
+		}
+	})
+
+	t.Run("successfully decodes the hashid", func(t *testing.T) {
+		inputs := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0b8DZ1a", 1},
+			{"EO19oA6vGx", 43},
+			{"J4r0MA20No", 66},
+		}
+
+		for _, inp := range inputs {
+			id, err := hashids.DecodeHash([]byte(inp.hash))
+
+			assert.Nil(t, err)
+			assert.Equal(t, inp.id, id)
+		}
+	})
+}
+
 func TestSetHasher(t *testing.T) {
 	t.Run("different hasher produces different hash even the minimum length is same for the same ID", func(t *testing.T) {
 		hasher1, _ := hashids.NewHashID(5, "new-salt")

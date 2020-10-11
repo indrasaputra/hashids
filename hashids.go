@@ -21,6 +21,16 @@ func SetHasher(hash *HashID) {
 	hasher = hash
 }
 
+// DecodeHash decodes hash into an ID.
+func DecodeHash(hash []byte) (ID, error) {
+	return hasher.Decode(hash)
+}
+
+// EncodeID encodes ID into a random string (hash).
+func EncodeID(id ID) ([]byte, error) {
+	return hasher.Encode(id)
+}
+
 // ID represents a unique identifier.
 // It means to replace the old int64 as unique ID.
 // Using this type allows the int64 to be obfuscated

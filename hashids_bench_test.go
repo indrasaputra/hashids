@@ -83,3 +83,45 @@ func BenchmarkHashID_Decode(b *testing.B) {
 		}
 	})
 }
+
+func BenchmarkEncodeID(b *testing.B) {
+	b.Run("various id", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			hashids.EncodeID(hashids.ID(i))
+		}
+	})
+}
+
+func BenchmarkDecodeHash(b *testing.B) {
+	b.Run("length: 5", func(b *testing.B) {
+		hash, _ := hashids.NewHashID(5, "common-salt")
+		res, _ := hash.Encode(100)
+		for i := 0; i < b.N; i++ {
+			hashids.DecodeHash(res)
+		}
+	})
+
+	b.Run("length: 10", func(b *testing.B) {
+		hash, _ := hashids.NewHashID(10, "common-salt")
+		res, _ := hash.Encode(100)
+		for i := 0; i < b.N; i++ {
+			hashids.DecodeHash(res)
+		}
+	})
+
+	b.Run("length: 15", func(b *testing.B) {
+		hash, _ := hashids.NewHashID(15, "common-salt")
+		res, _ := hash.Encode(100)
+		for i := 0; i < b.N; i++ {
+			hashids.DecodeHash(res)
+		}
+	})
+
+	b.Run("length: 20", func(b *testing.B) {
+		hash, _ := hashids.NewHashID(20, "common-salt")
+		res, _ := hash.Encode(100)
+		for i := 0; i < b.N; i++ {
+			hashids.DecodeHash(res)
+		}
+	})
+}
