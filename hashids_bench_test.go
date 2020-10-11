@@ -12,3 +12,10 @@ func BenchmarkID_MarshalJSON(b *testing.B) {
 		id.MarshalJSON()
 	}
 }
+
+func BenchmarkID_UnmarshalJSON(b *testing.B) {
+	var id hashids.ID
+	for i := 0; i < b.N; i++ {
+		id.UnmarshalJSON([]byte(`"J4r0MA20No"`))
+	}
+}
