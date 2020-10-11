@@ -59,6 +59,25 @@ func TestID_UnmarshalJSON(t *testing.T) {
 		assert.Equal(t, hashids.ID(0), id)
 	})
 
+	t.Run("invalid hash can't be marshalled", func(t *testing.T) {
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0b8DZ1a", 1},
+			{"EO19oA6vGx", 43},
+			{"J4r0MA20No", 66},
+		}
+
+		for _, table := range tables {
+			var id hashids.ID
+			err := id.UnmarshalJSON([]byte(table.hash))
+
+			assert.NotNil(t, err)
+			assert.NotEqual(t, table.id, id)
+		}
+	})
+
 	t.Run("successfully unmarshal valid hashes", func(t *testing.T) {
 		tables := []struct {
 			hash string
@@ -71,8 +90,9 @@ func TestID_UnmarshalJSON(t *testing.T) {
 
 		for _, table := range tables {
 			var id hashids.ID
-			id.UnmarshalJSON([]byte(table.hash))
+			err := id.UnmarshalJSON([]byte(table.hash))
 
+			assert.Nil(t, err)
 			assert.Equal(t, table.id, id)
 		}
 	})
