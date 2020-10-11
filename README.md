@@ -46,4 +46,16 @@ When the `product` is marshalled into a JSON, the ID will not be a plain integer
 }
 ```
 
+Upon decoding the ID, Hashids will decode back the random string to the original ID.
 
+```go
+var product Product
+b := []byte(`{"id": "kmzwa8awaa","name": "product's name"}`)
+json.Unmarshal(b, &product)
+```
+
+The code above will fill the product's attributes like this:
+
+```json
+{66 product's name}
+```
