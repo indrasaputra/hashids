@@ -252,6 +252,18 @@ func TestHashID_Decode(t *testing.T) {
 	})
 }
 
+func TestEncodeID(t *testing.T) {
+	t.Run("successfully encodes the ID", func(t *testing.T) {
+		ids := []hashids.ID{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+		for _, id := range ids {
+			res, err := hashids.EncodeID(id)
+
+			assert.Nil(t, err)
+			assert.NotEmpty(t, res)
+		}
+	})
+}
+
 func TestDecodeHash(t *testing.T) {
 	t.Run("can't decode invalid hash", func(t *testing.T) {
 		inputs := []struct {
