@@ -112,6 +112,26 @@ func TestID_MarshalAndUnmarshal(t *testing.T) {
 			assert.Equal(t, id, tmp)
 		}
 	})
+
+	t.Run("ID on struct gets back to original ID when unmarshal after marshal", func(t *testing.T) {
+		type Product struct {
+			ID   hashids.ID `json:"id"`
+			Name string     `json:"name"`
+		}
+
+		ids := []hashids.ID{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 200, 1000, 10000, 100000, 1000000, 10000000, 100000000}
+		for _, id := range ids {
+			prod := Product{id, "product's name"}
+			res, err := json.Marshal(prod)
+			assert.Nil(t, err)
+
+			var tmp Product
+			err = json.Unmarshal(res, &tmp)
+			assert.Nil(t, err)
+			assert.Equal(t, id, tmp.ID)
+			assert.Equal(t, prod, tmp)
+		}
+	})
 }
 
 func TestNewHashID(t *testing.T) {
