@@ -19,6 +19,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Unit-Test and Coverage
-      run: go test -race -tags=all -coverprofile=coverage.out -covermode=atomic ./...
+      run: go test -race -tags=all -coverprofile=coverage.txt -covermode=atomic ./...
     - name: Codecov
       uses: codecov/codecov-action@v1.0.13
