@@ -3,6 +3,7 @@ package hashids
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	gohashids "github.com/speps/go-hashids"
 )
@@ -27,6 +28,25 @@ func (id ID) MarshalJSON() ([]byte, error) {
 		return nil, err
 	}
 	return json.Marshal(res)
+}
+
+// UnmarshalJSON unmarshals the JSON back to ID.
+func (id *ID) UnmarshalJSON(hash []byte) error {
+	if strings.TrimSpace(string(hash)) == "null" {
+		*id = 0
+		return nil
+	}
+
+	if len(hash) >= 2 {
+		hash = hash[1 : len(hash)-1]
+	}
+
+	res, err := hasher.Decode(hash)
+	if err != nil {
+		return err
+	}
+	*id = ID(res)
+	return nil
 }
 
 // Hash defines the contract to encode and decode the ID.
