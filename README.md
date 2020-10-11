@@ -16,3 +16,34 @@ This project uses [https://github.com/speps/go-hashids](https://github.com/speps
 ```
 go get github.com/indrasaputra/hashids
 ```
+
+## Example
+
+Let there be a struct:
+
+```go
+type Product struct {
+    ID      hashids.ID  `json:"id"`
+    Name    string      `json:"name"`
+}
+```
+
+Then we have an instance of Product like this:
+
+```go
+product := &Product{
+    ID: hashids.ID(66),
+    Name: "Product's name",
+}
+```
+
+When the `product` is marshalled into a JSON, the ID will not be a plain integer. It will become a random string like this:
+
+```json
+{
+    "id": "kmzwa8awaa",
+    "name": "product's name"
+}
+```
+
+
