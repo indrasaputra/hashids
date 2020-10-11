@@ -8,7 +8,7 @@ import (
 )
 
 func TestID_MarshalJSON(t *testing.T) {
-	t.Run("zero id be marshaled as 'null'", func(t *testing.T) {
+	t.Run("zero id be marshalled as 'null'", func(t *testing.T) {
 		id := hashids.ID(0)
 		res, err := id.MarshalJSON()
 
@@ -16,7 +16,7 @@ func TestID_MarshalJSON(t *testing.T) {
 		assert.Equal(t, "null", string(res))
 	})
 
-	t.Run("negative number can't be marshaled", func(t *testing.T) {
+	t.Run("negative number can't be marshalled", func(t *testing.T) {
 		ids := []hashids.ID{
 			hashids.ID(-1),
 			hashids.ID(-43),
@@ -44,6 +44,15 @@ func TestID_MarshalJSON(t *testing.T) {
 			assert.Nil(t, err)
 			assert.NotEmpty(t, res)
 		}
+	})
+}
+
+func TestID_UnmarshalJSON(t *testing.T) {
+	t.Run("'null' is marshalled to zero ID", func(t *testing.T) {
+		id := hashids.ID(10)
+		id.UnmarshalJSON([]byte(`null`))
+
+		assert.Equal(t, hashids.ID(0), id)
 	})
 }
 
