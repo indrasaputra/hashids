@@ -123,7 +123,7 @@ func (h *HashID) Decode(hash []byte) (ID, error) {
 		return 0, err
 	}
 	if len(res) != 1 {
-		return 0, fmt.Errorf("Expected decoded value must be only 1 ID, turns out be %d ID(s)", len(res))
+		return 0, fmt.Errorf("expected decoded value must be only 1 ID, turns out be %d ID(s)", len(res))
 	}
 	return ID(res[0]), nil
 }
