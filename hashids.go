@@ -66,7 +66,7 @@ func (id *ID) UnmarshalJSON(hash []byte) error {
 	if err != nil {
 		return err
 	}
-	*id = ID(res)
+	*id = res
 	return nil
 }
 
