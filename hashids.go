@@ -70,6 +70,17 @@ func (id *ID) UnmarshalJSON(hash []byte) error {
 	return nil
 }
 
+// EncodeString encodes ID to hashsids format and returns as a string.
+// It ignores the error coming from encoding process.
+// Thus, if there is any error during the process, it returns empty string.
+func (id ID) EncodeString() string {
+	res, err := hasher.Encode(id)
+	if err != nil {
+		return ""
+	}
+	return string(res)
+}
+
 // Hash defines the contract to encode and decode the ID.
 type Hash interface {
 	// Encode encodes the ID into a slice of byte.
