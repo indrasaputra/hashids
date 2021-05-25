@@ -6,6 +6,10 @@ import (
 	"github.com/indrasaputra/hashids"
 )
 
+const (
+	salt = "common-salt"
+)
+
 func BenchmarkID_MarshalJSON(b *testing.B) {
 	id := hashids.ID(66)
 	for i := 0; i < b.N; i++ {
@@ -22,28 +26,28 @@ func BenchmarkID_UnmarshalJSON(b *testing.B) {
 
 func BenchmarkHashID_Encode(b *testing.B) {
 	b.Run("length: 5", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(5, "common-salt")
+		hash, _ := hashids.NewHashID(5, salt)
 		for i := 0; i < b.N; i++ {
 			hash.Encode(hashids.ID(i))
 		}
 	})
 
 	b.Run("length: 10", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(10, "common-salt")
+		hash, _ := hashids.NewHashID(10, salt)
 		for i := 0; i < b.N; i++ {
 			hash.Encode(hashids.ID(i))
 		}
 	})
 
 	b.Run("length: 15", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(15, "common-salt")
+		hash, _ := hashids.NewHashID(15, salt)
 		for i := 0; i < b.N; i++ {
 			hash.Encode(hashids.ID(i))
 		}
 	})
 
 	b.Run("length: 20", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(20, "common-salt")
+		hash, _ := hashids.NewHashID(20, salt)
 		for i := 0; i < b.N; i++ {
 			hash.Encode(hashids.ID(i))
 		}
@@ -52,7 +56,7 @@ func BenchmarkHashID_Encode(b *testing.B) {
 
 func BenchmarkHashID_Decode(b *testing.B) {
 	b.Run("length: 5", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(5, "common-salt")
+		hash, _ := hashids.NewHashID(5, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hash.Decode(res)
@@ -60,7 +64,7 @@ func BenchmarkHashID_Decode(b *testing.B) {
 	})
 
 	b.Run("length: 10", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(10, "common-salt")
+		hash, _ := hashids.NewHashID(10, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hash.Decode(res)
@@ -68,7 +72,7 @@ func BenchmarkHashID_Decode(b *testing.B) {
 	})
 
 	b.Run("length: 15", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(15, "common-salt")
+		hash, _ := hashids.NewHashID(15, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hash.Decode(res)
@@ -76,7 +80,7 @@ func BenchmarkHashID_Decode(b *testing.B) {
 	})
 
 	b.Run("length: 20", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(20, "common-salt")
+		hash, _ := hashids.NewHashID(20, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hash.Decode(res)
@@ -94,7 +98,7 @@ func BenchmarkEncodeID(b *testing.B) {
 
 func BenchmarkDecodeHash(b *testing.B) {
 	b.Run("length: 5", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(5, "common-salt")
+		hash, _ := hashids.NewHashID(5, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hashids.DecodeHash(res)
@@ -102,7 +106,7 @@ func BenchmarkDecodeHash(b *testing.B) {
 	})
 
 	b.Run("length: 10", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(10, "common-salt")
+		hash, _ := hashids.NewHashID(10, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hashids.DecodeHash(res)
@@ -110,7 +114,7 @@ func BenchmarkDecodeHash(b *testing.B) {
 	})
 
 	b.Run("length: 15", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(15, "common-salt")
+		hash, _ := hashids.NewHashID(15, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hashids.DecodeHash(res)
@@ -118,7 +122,7 @@ func BenchmarkDecodeHash(b *testing.B) {
 	})
 
 	b.Run("length: 20", func(b *testing.B) {
-		hash, _ := hashids.NewHashID(20, "common-salt")
+		hash, _ := hashids.NewHashID(20, salt)
 		res, _ := hash.Encode(100)
 		for i := 0; i < b.N; i++ {
 			hashids.DecodeHash(res)
