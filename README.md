@@ -4,7 +4,8 @@
 [![Workflow](https://github.com/indrasaputra/hashids/workflows/Test/badge.svg)](https://github.com/indrasaputra/hashids/actions)
 [![codecov](https://codecov.io/gh/indrasaputra/hashids/branch/main/graph/badge.svg)](https://codecov.io/gh/indrasaputra/hashids)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2cd8202174459c1b5348/maintainability)](https://codeclimate.com/github/indrasaputra/hashids/maintainability)
-[![Documentation](https://godoc.org/github.com/indrasaputra/hashids?status.svg)](http://godoc.org/github.com/indrasaputra/hashids)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=indrasaputra_hashids&metric=alert_status)](https://sonarcloud.io/dashboard?id=indrasaputra_hashids)
+[![Go Reference](https://pkg.go.dev/badge/github.com/indrasaputra/hashids.svg)](https://pkg.go.dev/github.com/indrasaputra/hashids)
 
 Hashids is a package to convert ID into a random string to obfuscate the real ID from user.
 In the implementation itself, the ID will still be an integer. But, when it is shown to the user,
@@ -62,4 +63,4 @@ The code above will fill the product's attributes like this:
 
 ## Limitation
 
-For now, this package only support encoding to JSON and decoding from JSON.
+For now, this package only support encoding to JSON, decoding from JSON, and encode as a string.

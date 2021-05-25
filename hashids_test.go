@@ -134,6 +134,40 @@ func TestID_MarshalAndUnmarshal(t *testing.T) {
 	})
 }
 
+func TestID_EncodeString(t *testing.T) {
+	t.Run("negative number can't be encoded and produces empty string", func(t *testing.T) {
+		ids := []hashids.ID{
+			hashids.ID(-1),
+			hashids.ID(-43),
+			hashids.ID(-66),
+		}
+
+		for _, id := range ids {
+			res := id.EncodeString()
+
+			assert.Empty(t, res)
+		}
+	})
+
+	t.Run("successfully encode positive number", func(t *testing.T) {
+		tables := []struct {
+			hash string
+			id   hashids.ID
+		}{
+			{"oWx0b8DZ1a", 1},
+			{"EO19oA6vGx", 43},
+			{"J4r0MA20No", 66},
+		}
+
+		for _, table := range tables {
+			res := table.id.EncodeString()
+
+			assert.NotEmpty(t, res)
+			assert.Equal(t, table.hash, res)
+		}
+	})
+}
+
 func TestNewHashID(t *testing.T) {
 	t.Run("successfully create an instance of HashID", func(t *testing.T) {
 		tables := []struct {
